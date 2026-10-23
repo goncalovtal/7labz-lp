@@ -81,8 +81,9 @@ export default function TimeBack() {
           back
         </h2>
         <p className={styles.lede} data-reveal>
-          Most founders we work with run everything themselves. Every hour a system takes off you is
-          an hour back for the people waiting at home
+          When we embed with a company, the first thing we find is the hours lost to admin, chasing
+          and reporting. Every hour a system takes off your team is an hour back for the work, and
+          for the people waiting at home
         </p>
       </header>
 

@@ -12,7 +12,7 @@ export const FAQ: { question: string; answer: string }[] = [
   {
     question: 'Who is 7labz for',
     answer:
-      'Mostly local businesses that run on spreadsheets, inboxes and memory and need a system that works this month. Some are AI startups that need a product shipped. Different problems, same team',
+      'Companies that have outgrown the way they run, and AI startups that need a product shipped. We embed with the team and restructure the work from within: the processes, the tools and the systems underneath. Different problems, same team',
   },
   {
     question: 'How fast does something go live',

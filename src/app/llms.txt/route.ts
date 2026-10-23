@@ -14,7 +14,7 @@ export function GET() {
     '',
     `> ${SITE_DESCRIPTION}`,
     '',
-    '7labz is a boutique studio of growth engineers. Most clients are businesses that run on spreadsheets, inboxes and memory and need a system that makes them faster this month; some are AI startups that need a product shipped. The same small team maps the problem, builds the fix and stays until the client runs it without them. It works with a few businesses at a time, so clients apply rather than book.',
+    '7labz is a boutique studio of growth engineers. It embeds inside companies and restructures them from within: it maps how the work actually flows, then rebuilds the processes, tools and systems underneath. Clients are companies that have outgrown the way they run, and AI startups that need a product shipped. The same small team maps the problem, builds the fix and stays until the client runs it without them. It works with a few companies at a time, so clients apply rather than book.',
     '',
     '## Services',
     '',

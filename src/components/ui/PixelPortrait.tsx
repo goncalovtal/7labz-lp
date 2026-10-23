@@ -374,7 +374,7 @@ function initPixelPortrait(host: HTMLElement, canvas: HTMLCanvasElement, options
   }
   function run() {
     if (rafId || disposed || still || !visible || document.hidden) return
-    if (streaming) video?.play().catch(() => {})
+    if (streaming || blocked) tryPlay()
     rafId = requestAnimationFrame(loop)
   }
   function stop() {
@@ -420,18 +420,50 @@ function initPixelPortrait(host: HTMLElement, canvas: HTMLCanvasElement, options
   let hasSource = false
   /** Within reach of the viewport, so the clips are worth downloading. */
   let near = false
+  /** The browser refused to start the clip without a gesture; retry on the first one. */
+  let blocked = false
 
+  // WebKit (every browser on iOS) decides whether a clip may autoplay inline from its
+  // `muted` and `playsinline` attributes, not the matching properties, so both are set.
   const makeClip = (src: string, looping: boolean) => {
     const clip = document.createElement('video')
     clip.muted = true
-    clip.loop = looping
+    clip.defaultMuted = true
+    clip.setAttribute('muted', '')
     clip.playsInline = true
+    clip.setAttribute('playsinline', '')
+    clip.loop = looping
     clip.preload = 'auto'
     clip.src = src
     return clip
   }
 
-  /** Put a clip on screen and play it, once its first frame is decoded. */
+  // Low Power Mode and in-app browsers (Instagram, WhatsApp, LinkedIn) refuse autoplay until
+  // the visitor touches the page. Without a retry the hero stayed a still forever, while a
+  // clip further down played, because by the time it asked the visitor had already touched.
+  const GESTURES = ['pointerdown', 'touchstart', 'keydown'] as const
+  const onGesture = () => {
+    for (const type of GESTURES) window.removeEventListener(type, onGesture, true)
+    if (blocked) tryPlay()
+  }
+  function tryPlay() {
+    const clip = video
+    if (!clip || disposed || !visible || document.hidden) return
+    clip
+      .play()
+      .then(() => {
+        blocked = false
+      })
+      .catch(() => {
+        // Autoplay refused: the current frame stays up as a still until a gesture.
+        if (blocked) return
+        blocked = true
+        for (const type of GESTURES) {
+          window.addEventListener(type, onGesture, { capture: true, passive: true })
+        }
+      })
+  }
+
   /** Flag each decoded frame of the clip on screen, so only those are read and drawn. */
   const watchFrames = (clip: HTMLVideoElement) => {
     if (!hasFrameCallback) return
@@ -443,6 +475,7 @@ function initPixelPortrait(host: HTMLElement, canvas: HTMLCanvasElement, options
     clip.requestVideoFrameCallback(onFrame)
   }
 
+  /** Put a clip on screen: start it now, and draw from it once its first frame is in. */
   const playClip = (clip: HTMLVideoElement) => {
     video = clip
     const begin = () => {
@@ -450,11 +483,12 @@ function initPixelPortrait(host: HTMLElement, canvas: HTMLCanvasElement, options
       adoptSource(clip, clip.videoWidth, clip.videoHeight)
       streaming = true
       watchFrames(clip)
-      // Autoplay refused: the current frame stays up as a still.
-      if (visible && !document.hidden) clip.play().catch(() => (streaming = false))
     }
     if (clip.readyState >= 2) begin()
     else clip.addEventListener('loadeddata', begin, { once: true })
+    // Asked for straight away, not after the first frame: iOS doesn't buffer a frame until a
+    // clip is told to play, so waiting for one first left the hero stuck on its still.
+    tryPlay()
   }
 
   const startEntrance = () => {
@@ -516,6 +550,7 @@ function initPixelPortrait(host: HTMLElement, canvas: HTMLCanvasElement, options
     stopWaiting()
     stopApproach()
     fadeTween?.kill()
+    for (const type of GESTURES) window.removeEventListener(type, onGesture, true)
     for (const clip of [introClip, loopClip]) {
       clip?.pause()
       clip?.removeAttribute('src')

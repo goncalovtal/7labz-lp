@@ -1,0 +1,88 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100svh;
+  background-color: #ffffff;
+  overflow: clip;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: utils.$space-16 utils.$space-8;
+}
+
+/* Spans the hero below the nav. The forearm ghosts out behind the copy so the text
+   stays clean while the hand above it keeps full strength. */
+.portrait {
+  position: absolute;
+  inset: 5.5rem 0 0;
+  z-index: 0;
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 50%,
+    rgba(0, 0, 0, 0.32) 61%,
+    rgba(0, 0, 0, 0.32) 100%
+  );
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: utils.$space-6;
+  /* Lifted off the bottom edge by a share of the screen height, so it breathes on tall
+     screens without floating away on short ones. */
+  padding: 0 utils.$space-6 clamp(4rem, 11svh, 7rem);
+  text-align: center;
+  pointer-events: none;
+
+  @include utils.lg {
+    padding-inline: utils.$space-8;
+  }
+}
+
+.heading {
+  visibility: hidden;
+  color: colors.$brand-indigo;
+  font-size: clamp(2rem, 4.4vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: utils.$space-6;
+  visibility: hidden;
+  pointer-events: auto;
+}
+
+.lede {
+  max-width: 26rem;
+  color: rgba(colors.$brand-indigo, 0.6);
+  font-size: utils.$text-sm;
+  line-height: 1.45;
+  text-wrap: balance;
+}

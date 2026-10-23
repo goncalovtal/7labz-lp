@@ -1,0 +1,71 @@
+@use 'sass:color';
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+$pad: max(utils.$space-3, 1.25vw);
+
+/* `difference` paints |backdrop − colour|. Using indigo's inverse as the colour means
+   white − colour = indigo, so the nav reads indigo over the white hero; over the
+   indigo sections it flips to a lime green. */
+$nav-blend-color: color.invert(colors.$brand-indigo);
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: utils.$z-overlay;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  padding: $pad;
+  color: $nav-blend-color;
+  mix-blend-mode: difference;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-self: start;
+}
+
+.link {
+  display: block;
+  font-size: utils.$text-sm;
+}
+
+.home {
+  display: block;
+}
+
+.logo {
+  display: block;
+  width: 4.25rem;
+  height: auto;
+  overflow: visible;
+  visibility: hidden;
+  fill: currentColor;
+
+  path {
+    transform-box: fill-box;
+  }
+}
+
+.cta {
+  position: fixed;
+  top: $pad;
+  right: $pad;
+  z-index: utils.$z-overlay;
+}
+
+/* Compact on phones so the button fits its grid column and the logo stays centred. */
+.ctaButton {
+  @media (max-width: #{utils.$bp-md - 0.02px}) {
+    padding: 0.8em 0.9em;
+    font-size: utils.$text-xs;
+  }
+}

@@ -1,0 +1,100 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+/* Registered so it can transition: an unregistered custom property just jumps. */
+@property --px {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.95em 1.3em;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  font-size: utils.$text-sm;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+
+  &:hover:not(:disabled) {
+    transform: scale(0.94);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+}
+
+.indigo {
+  background-color: colors.$brand-indigo;
+  color: colors.$foreground;
+}
+
+.gray {
+  background-color: #ececee;
+  color: colors.$brand-indigo;
+}
+
+/* Three pixel steps cut out of every corner, each step `--px` square. Hovering
+   shrinks `--px` to nothing in visible steps, so the corners rebuild square. */
+.pixelated {
+  --px: 4px;
+
+  clip-path: polygon(
+    0px calc(var(--px) * 3),
+    calc(var(--px) * 1) calc(var(--px) * 3),
+    calc(var(--px) * 1) calc(var(--px) * 2),
+    calc(var(--px) * 2) calc(var(--px) * 2),
+    calc(var(--px) * 2) calc(var(--px) * 1),
+    calc(var(--px) * 3) calc(var(--px) * 1),
+    calc(var(--px) * 3) 0px,
+    calc(100% - var(--px) * 3) 0px,
+    calc(100% - var(--px) * 3) calc(var(--px) * 1),
+    calc(100% - var(--px) * 2) calc(var(--px) * 1),
+    calc(100% - var(--px) * 2) calc(var(--px) * 2),
+    calc(100% - var(--px) * 1) calc(var(--px) * 2),
+    calc(100% - var(--px) * 1) calc(var(--px) * 3),
+    100% calc(var(--px) * 3),
+    100% calc(100% - var(--px) * 3),
+    calc(100% - var(--px) * 1) calc(100% - var(--px) * 3),
+    calc(100% - var(--px) * 1) calc(100% - var(--px) * 2),
+    calc(100% - var(--px) * 2) calc(100% - var(--px) * 2),
+    calc(100% - var(--px) * 2) calc(100% - var(--px) * 1),
+    calc(100% - var(--px) * 3) calc(100% - var(--px) * 1),
+    calc(100% - var(--px) * 3) 100%,
+    calc(var(--px) * 3) 100%,
+    calc(var(--px) * 3) calc(100% - var(--px) * 1),
+    calc(var(--px) * 2) calc(100% - var(--px) * 1),
+    calc(var(--px) * 2) calc(100% - var(--px) * 2),
+    calc(var(--px) * 1) calc(100% - var(--px) * 2),
+    calc(var(--px) * 1) calc(100% - var(--px) * 3),
+    0px calc(100% - var(--px) * 3)
+  );
+  transition:
+    transform 0.6s cubic-bezier(0.625, 0.05, 0, 1),
+    --px 0.36s steps(4, end);
+
+  &:hover,
+  &:focus-visible {
+    --px: 0px;
+  }
+
+  &:focus-visible {
+    outline-offset: -4px;
+    outline-color: colors.$foreground;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+}

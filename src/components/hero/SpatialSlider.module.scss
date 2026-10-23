@@ -1,0 +1,112 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+.slider {
+  --slider-curve: 30deg;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  &:not([data-ready]) .collection {
+    opacity: 0;
+  }
+
+  &[data-drag='grab'] .collection {
+    cursor: grab;
+  }
+
+  &[data-drag='grabbing'] .collection {
+    cursor: grabbing;
+  }
+}
+
+.collection {
+  position: relative;
+  max-width: 100%;
+}
+
+.list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5em;
+  perspective: 120em;
+  transform-style: preserve-3d;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.item {
+  position: absolute;
+  flex: none;
+  backface-visibility: hidden;
+
+  &:first-child {
+    position: relative;
+  }
+}
+
+.media {
+  position: relative;
+  width: clamp(18rem, 36vw, 44rem);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: utils.$radius-md;
+
+  img,
+  video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Client footage in mono, so the slider reads as one palette next to the indigo. */
+  video {
+    filter: grayscale(1);
+  }
+
+  /* Even white glow round the inside edge. On an overlay rather than the card itself,
+     because an inset shadow on the card is painted underneath the video. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+      inset 0 0 3.5rem 0.75rem rgba(255, 255, 255, 0.45);
+    pointer-events: none;
+  }
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ececee;
+}
+
+/* Matrix decode: characters still scrambling (see matrixText.ts) flash brand green
+   until they settle into the grey label. */
+.soon {
+  display: flex;
+  font-family: var(--font-mono), monospace;
+  font-size: utils.$text-xs;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: pre;
+  color: #8d8d94;
+
+  [data-scrambling] {
+    color: colors.$brand-green;
+  }
+}

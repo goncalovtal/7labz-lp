@@ -1,0 +1,15 @@
+/* The glyph grid reads its font from here, so it's a true monospace. */
+.portrait {
+  position: relative;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: var(--font-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

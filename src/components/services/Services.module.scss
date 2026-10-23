@@ -1,0 +1,141 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+/* Blue again, above the manifesto rising from behind it. */
+.services {
+  z-index: 3;
+  padding: utils.$space-24 utils.$space-6;
+  background-color: colors.$brand-indigo;
+  color: colors.$foreground;
+
+  @include utils.lg {
+    padding: utils.$space-32 utils.$space-8;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-4;
+  margin-bottom: utils.$space-16;
+
+  @include utils.lg {
+    margin-bottom: utils.$space-24;
+  }
+}
+
+.eyebrow,
+.index {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: utils.$text-xs;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  opacity: 0.6;
+}
+
+.title {
+  font-size: clamp(2rem, 4.4vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.layout {
+  @include utils.lg {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: utils.$space-8;
+  }
+}
+
+/* The illustration column stretches the full height of the list, and the mark inside it
+   starts level with the first row, then holds at the middle of the screen as the list
+   scrolls past. One mark is shown at a time. */
+.stage {
+  display: none;
+
+  @include utils.lg {
+    display: block;
+  }
+}
+
+.sticky {
+  position: sticky;
+  top: calc(50svh - 12 * 13px);
+  display: flex;
+  justify-content: center;
+}
+
+.inlineMark {
+  margin-bottom: utils.$space-6;
+
+  @include utils.lg {
+    display: none;
+  }
+}
+
+.list {
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  padding: utils.$space-8 0;
+  border-top: 1px solid rgba(colors.$brand-lavender, 0.25);
+  transition: opacity 0.5s ease;
+
+  @include utils.lg {
+    padding: utils.$space-10 0;
+    opacity: 0.35;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid rgba(colors.$brand-lavender, 0.25);
+  }
+}
+
+.active {
+  opacity: 1;
+}
+
+.index {
+  margin-bottom: utils.$space-3;
+  opacity: 0.5;
+}
+
+.rowTitle {
+  margin-bottom: utils.$space-3;
+  font-size: utils.$text-3xl;
+  line-height: 1;
+  letter-spacing: -0.03em;
+
+  @include utils.lg {
+    font-size: utils.$text-4xl;
+  }
+}
+
+.body {
+  max-width: 34ch;
+  margin-bottom: utils.$space-5;
+  color: colors.$brand-lavender;
+  font-size: utils.$text-base;
+  line-height: 1.5;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: utils.$space-2;
+  list-style: none;
+
+  li {
+    padding: 0.45em 0.8em;
+    border: 1px solid rgba(colors.$brand-lavender, 0.35);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: utils.$text-xs;
+    letter-spacing: 0.02em;
+  }
+}

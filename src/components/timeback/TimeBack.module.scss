@@ -1,0 +1,287 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+/* White between the two blue sections, so neither runs on too long. */
+.timeBack {
+  z-index: 3;
+  padding: utils.$space-24 utils.$space-6;
+  background-color: #ffffff;
+  color: colors.$brand-indigo;
+
+  @include utils.lg {
+    padding: utils.$space-32 utils.$space-8;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-4;
+  margin-bottom: utils.$space-16;
+
+  @include utils.lg {
+    margin-bottom: utils.$space-20;
+  }
+}
+
+.eyebrow,
+.when,
+.sliderValue,
+.resultLabel,
+.footnote,
+.timelineTitle {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: utils.$text-xs;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  opacity: 0.6;
+}
+
+.title {
+  max-width: 22ch;
+  font-size: clamp(2rem, 4.4vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.lede {
+  max-width: 34rem;
+  margin-top: utils.$space-4;
+  color: rgba(colors.$brand-indigo, 0.7);
+  font-size: utils.$text-lg;
+  line-height: 1.5;
+}
+
+/* Sliders on the left, the result on the right; stacked below desktop. */
+.calculator {
+  display: grid;
+  gap: utils.$space-10;
+
+  @include utils.lg {
+    grid-template-columns: 1fr 1fr;
+    gap: utils.$space-16;
+    align-items: stretch;
+  }
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-6;
+}
+
+.question {
+  font-size: utils.$text-xl;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+
+  @include utils.lg {
+    font-size: utils.$text-2xl;
+  }
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-3;
+  padding-top: utils.$space-4;
+  border-top: 1px solid rgba(colors.$brand-indigo, 0.15);
+  cursor: pointer;
+
+  input {
+    --fill: 0%;
+
+    width: 100%;
+    height: 16px;
+    margin: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid colors.$brand-indigo;
+      outline-offset: 4px;
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 4px;
+      background: linear-gradient(
+        to right,
+        colors.$brand-indigo var(--fill),
+        rgba(colors.$brand-indigo, 0.15) var(--fill)
+      );
+    }
+
+    &::-webkit-slider-thumb {
+      width: 16px;
+      height: 16px;
+      margin-top: -6px;
+      border: 0;
+      background-color: colors.$brand-indigo;
+      appearance: none;
+      transition: transform 0.2s ease;
+    }
+
+    &:active::-webkit-slider-thumb {
+      transform: scale(1.25);
+    }
+
+    &::-moz-range-track {
+      height: 4px;
+      background-color: rgba(colors.$brand-indigo, 0.15);
+    }
+
+    &::-moz-range-progress {
+      height: 4px;
+      background-color: colors.$brand-indigo;
+    }
+
+    &::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border: 0;
+      border-radius: 0;
+      background-color: colors.$brand-indigo;
+    }
+  }
+}
+
+.sliderHead {
+  display: flex;
+  justify-content: space-between;
+  gap: utils.$space-4;
+  font-size: utils.$text-base;
+}
+
+.sliderValue {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  padding: utils.$space-8;
+  background-color: colors.$brand-indigo;
+  color: colors.$foreground;
+
+  @include utils.lg {
+    padding: utils.$space-10;
+  }
+}
+
+.resultLabel {
+  color: colors.$brand-lavender;
+}
+
+.big {
+  display: flex;
+  align-items: baseline;
+  gap: utils.$space-3;
+  margin-top: utils.$space-4;
+  font-size: clamp(4rem, 9vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-size: utils.$text-2xl;
+  letter-spacing: -0.01em;
+}
+
+.equivalents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: utils.$space-6;
+  margin-top: auto;
+  padding-top: utils.$space-10;
+
+  p {
+    display: flex;
+    flex-direction: column;
+    gap: utils.$space-1;
+    padding-top: utils.$space-4;
+    border-top: 1px solid rgba(colors.$brand-lavender, 0.25);
+    color: colors.$brand-lavender;
+    font-size: utils.$text-sm;
+    line-height: 1.4;
+  }
+}
+
+.equivalentValue {
+  color: colors.$foreground;
+  font-size: utils.$text-4xl;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.footnote {
+  margin-top: utils.$space-6;
+  color: rgba(colors.$brand-lavender, 0.7);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+}
+
+.timeline {
+  margin-top: utils.$space-20;
+
+  @include utils.lg {
+    margin-top: utils.$space-32;
+  }
+}
+
+.timelineTitle {
+  margin-bottom: utils.$space-6;
+  opacity: 0.6;
+}
+
+.track {
+  height: 2px;
+  background-color: rgba(colors.$brand-indigo, 0.12);
+}
+
+.line {
+  height: 100%;
+  background-color: colors.$brand-indigo;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.steps {
+  display: grid;
+  gap: utils.$space-8;
+  margin-top: utils.$space-6;
+  list-style: none;
+
+  @include utils.md {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include utils.lg {
+    grid-template-columns: repeat(4, 1fr);
+    gap: utils.$space-8;
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-3;
+}
+
+.when {
+  font-size: utils.$text-xs;
+}
+
+.what {
+  max-width: 24ch;
+  font-size: utils.$text-xl;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}

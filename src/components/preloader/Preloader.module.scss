@@ -1,0 +1,60 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: utils.$z-preloader;
+  pointer-events: auto;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.backdrop {
+  fill: colors.$brand-indigo;
+}
+
+.logo {
+  visibility: hidden;
+  fill: colors.$foreground;
+
+  path {
+    transform-box: fill-box;
+  }
+}
+
+.meta {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  justify-content: center;
+  padding: utils.$space-6;
+  color: colors.$foreground;
+  font-family: var(--font-primary), system-ui, sans-serif;
+  font-size: utils.$text-xl;
+  line-height: 1;
+
+  @include utils.lg {
+    padding: utils.$space-8;
+  }
+}
+
+/* Room above and below so number-flow's own roll isn't clipped by the reveal mask. */
+.mask {
+  display: block;
+  padding-block: 0.25em;
+  overflow: hidden;
+}
+
+/* Hidden in CSS so the server render never flashes it before the intro takes over. */
+.label {
+  display: block;
+  visibility: hidden;
+  font-variant-numeric: tabular-nums;
+}

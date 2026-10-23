@@ -1,0 +1,5 @@
+/* The canvas reads its font from here, so the grid is a true monospace. */
+.mark {
+  display: block;
+  font-family: var(--font-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}

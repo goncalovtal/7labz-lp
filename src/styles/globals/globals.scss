@@ -1,0 +1,54 @@
+@use '../utils' as utils;
+@use '../colors' as colors;
+
+html {
+  --font-primary: var(--font-picaro);
+  --font-heading: var(--font-picaro);
+  --font-mono: var(--font-geist-mono);
+
+  position: relative;
+  font-size: 16px;
+  background-color: colors.$background;
+  color: colors.$foreground;
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-primary), system-ui, sans-serif;
+  font-size: utils.$text-base;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background-color: colors.$accent;
+  color: colors.$accent-foreground;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+p {
+  line-height: 1.4;
+}
+
+:focus-visible {
+  outline-offset: 3px;
+}
+
+section {
+  position: relative;
+  z-index: 2;
+}

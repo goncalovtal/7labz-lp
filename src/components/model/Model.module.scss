@@ -1,0 +1,129 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+.model {
+  padding: utils.$space-24 utils.$space-6;
+  /* Above the manifesto, which rises from behind it. */
+  z-index: 3;
+  background-color: colors.$brand-indigo;
+  color: colors.$foreground;
+
+  @include utils.lg {
+    padding: utils.$space-32 utils.$space-8;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-4;
+  margin-bottom: utils.$space-16;
+
+  @include utils.lg {
+    margin-bottom: utils.$space-24;
+  }
+}
+
+.eyebrow,
+.index,
+.slots {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: utils.$text-xs;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  opacity: 0.6;
+}
+
+.title {
+  max-width: 22ch;
+  font-size: clamp(2rem, 4.4vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.stages {
+  display: grid;
+  gap: utils.$space-12;
+  list-style: none;
+
+  @include utils.md {
+    grid-template-columns: repeat(2, 1fr);
+    gap: utils.$space-12 utils.$space-8;
+  }
+
+  @include utils.lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  padding-top: utils.$space-6;
+  border-top: 1px solid rgba(colors.$brand-lavender, 0.25);
+}
+
+.mark {
+  margin-bottom: utils.$space-8;
+}
+
+.index {
+  margin-bottom: utils.$space-2;
+  opacity: 0.5;
+}
+
+.stageTitle {
+  margin-bottom: utils.$space-3;
+  font-size: utils.$text-3xl;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.body {
+  max-width: 28ch;
+  color: colors.$brand-lavender;
+  font-size: utils.$text-base;
+  line-height: 1.5;
+}
+
+.availability {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: utils.$space-6;
+  margin-top: utils.$space-16;
+  padding-top: utils.$space-6;
+  border-top: 1px solid rgba(colors.$brand-lavender, 0.25);
+
+  @include utils.lg {
+    margin-top: utils.$space-24;
+  }
+}
+
+.slots {
+  display: flex;
+  align-items: center;
+  gap: utils.$space-3;
+}
+
+.pips {
+  display: flex;
+  gap: 4px;
+
+  span {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.taken {
+  background-color: colors.$foreground;
+}
+
+.open {
+  box-shadow: inset 0 0 0 1px colors.$foreground;
+}

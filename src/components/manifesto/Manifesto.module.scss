@@ -22,10 +22,31 @@
   }
 }
 
+/* Below md the line runs on its own: two copies side by side, shifted by one copy's width,
+   so the loop has no seam. Pure CSS, so the pace never follows the scroll. */
 .stripTrack {
   display: flex;
   width: max-content;
   will-change: transform;
+
+  @media (max-width: #{utils.$bp-md - 0.02px}) and (prefers-reduced-motion: no-preference) {
+    animation: marquee 28s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* The second copy only exists for the marquee. */
+.stripLoop {
+  display: flex;
+
+  @include utils.md {
+    display: none;
+  }
 }
 
 .stripLine {
@@ -41,16 +62,25 @@
   white-space: nowrap;
 }
 
-/* The horse sprite (11 Muybridge frames side by side) as a mask over green, stepped
-   frame by frame so it gallops. Frame width is the sprite's aspect, 217 × 120. */
+/* A window one frame wide onto the horse sprite (11 Muybridge frames side by side, each
+   217 × 120). The sprite is a fixed mask over green and slides behind the window a frame
+   at a time, so it gallops. Moving it by transform rather than animating the mask's
+   position is what keeps it running in Safari and in-app browsers. */
 .stripHorse {
   --frame: calc(0.72em * 217 / 120);
 
   flex: none;
   width: var(--frame);
   height: 0.72em;
+  overflow: hidden;
+}
+
+.stripFrames {
+  display: block;
+  width: calc(var(--frame) * 11);
+  height: 100%;
   background-color: colors.$brand-green;
-  mask: url('/brand/horse-sprite.webp') 0 0 / calc(var(--frame) * 11) 100% no-repeat;
+  mask: url('/brand/horse-sprite.webp') 0 0 / 100% 100% no-repeat;
   animation: gallop 0.75s steps(11) infinite;
 
   @media (prefers-reduced-motion: reduce) {
@@ -60,7 +90,7 @@
 
 @keyframes gallop {
   to {
-    mask-position: calc(var(--frame) * -11) 0;
+    transform: translateX(-100%);
   }
 }
 

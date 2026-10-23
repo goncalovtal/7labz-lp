@@ -1,0 +1,32 @@
+# Deploys every push to main to Vercel production. The Vercel project isn't linked to
+# GitHub (the Vercel GitHub app belongs to another account), so this pushes the source
+# with the Vercel CLI instead and Vercel builds it, the same as `vercel deploy --prod`
+# from a laptop. Needs one repository secret, VERCEL_TOKEN, from vercel.com/account/tokens.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# A newer push supersedes a deploy still in flight.
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: team_XFKvecFcbbaboJ5AidN80xeo
+  VERCEL_PROJECT_ID: prj_SP5rm8c9I7K7FfieLG8zHeTcJsJb
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Deploy to production
+        run: npx --yes vercel@56.3.2 deploy --prod --yes --token="$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

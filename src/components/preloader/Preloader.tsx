@@ -36,6 +36,15 @@ const COUNT_STEPS = [
 /** Time to let the final roll to 100% land before the outro starts. */
 const FINAL_ROLL_SECONDS = 0.7
 
+/**
+ * How far below the clip the glyphs wait before they rise, in logo units. They move through
+ * the SVG transform attribute rather than CSS transforms: WebKit, and the in-app browsers
+ * built on it, can skip repainting a clipped SVG whose children move by CSS, which left the
+ * logo stuck out of sight.
+ */
+const GLYPH_DROP = `translate(0 ${LOGO_BOUNDS.height * 1.15})`
+const GLYPH_REST = 'translate(0 0)'
+
 function pageReady(): Promise<unknown> {
   const load =
     document.readyState === 'complete'
@@ -79,10 +88,13 @@ export default function Preloader() {
 
     // Positions both logo copies in screen px. The logo rests centred; the zoom scales
     // around the target stem exactly where it sits, so nothing slides — the stem just
-    // grows until it alone covers the viewport.
+    // grows until it alone covers the viewport. Sized from the overlay itself: in-app
+    // browsers can report a zero window size on the first frame, which would scale the
+    // logo to nothing.
     const layout = () => {
-      const vw = window.innerWidth
-      const vh = window.innerHeight
+      const vw = root.clientWidth || window.innerWidth
+      const vh = root.clientHeight || window.innerHeight
+      if (!vw || !vh) return
       const base = Math.min(vw * 0.24, 280) / LOGO_BOUNDS.width
 
       const tx = vw / 2 + (ZOOM_TARGET.x - LOGO_CENTER.x) * base
@@ -100,7 +112,9 @@ export default function Preloader() {
     }
 
     layout()
-    window.addEventListener('resize', layout)
+    // Runs again whenever the overlay settles on a new size, including a late first one.
+    const resize = new ResizeObserver(layout)
+    resize.observe(root)
 
     const finish = () => {
       hasPlayed = true
@@ -126,18 +140,18 @@ export default function Preloader() {
       return () => {
         cancelled = true
         timelines.forEach(t => t.kill())
-        window.removeEventListener('resize', layout)
+        resize.disconnect()
       }
     }
 
-    gsap.set(glyphs, { yPercent: 115 })
+    gsap.set(glyphs, { attr: { transform: GLYPH_DROP } })
     gsap.set(labels, { yPercent: 130, visibility: 'visible' })
     gsap.set(logo, { visibility: 'visible' })
 
     const intro = gsap
       .timeline()
-      .to(seven, { yPercent: 0, duration: 1.1 }, 0.15)
-      .to(word, { yPercent: 0, duration: 1.1, stagger: 0.07 }, 0.4)
+      .to(seven, { attr: { transform: GLYPH_REST }, duration: 1.1 }, 0.15)
+      .to(word, { attr: { transform: GLYPH_REST }, duration: 1.1, stagger: 0.07 }, 0.4)
       .to(labels, { yPercent: 0, duration: 0.9, stagger: 0.05 }, 0.3)
     timelines.push(intro)
 
@@ -180,7 +194,7 @@ export default function Preloader() {
     return () => {
       cancelled = true
       timelines.forEach(t => t.kill())
-      window.removeEventListener('resize', layout)
+      resize.disconnect()
     }
   }, [active])
 

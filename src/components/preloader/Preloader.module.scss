@@ -23,10 +23,6 @@
 .logo {
   visibility: hidden;
   fill: colors.$foreground;
-
-  path {
-    transform-box: fill-box;
-  }
 }
 
 .meta {

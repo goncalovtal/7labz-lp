@@ -1,0 +1,143 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+/* White, carrying on from the manifesto, so the switch to blue lands on Ventures. */
+.faq {
+  padding: 0 utils.$space-6 utils.$space-24;
+  background-color: #ffffff;
+  color: colors.$brand-indigo;
+
+  @include utils.lg {
+    padding: 0 utils.$space-8 utils.$space-32;
+  }
+}
+
+/* Heading on the left, the questions on the right; stacked below desktop. */
+.body {
+  display: grid;
+  gap: utils.$space-12;
+  padding-top: utils.$space-24;
+  border-top: 1px solid rgba(colors.$brand-indigo, 0.15);
+
+  @include utils.lg {
+    grid-template-columns: 1fr 1fr;
+    column-gap: utils.$space-16;
+    align-items: start;
+    padding-top: utils.$space-32;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-4;
+
+  /* Holds below the nav while the questions scroll past beside it. */
+  @include utils.lg {
+    position: sticky;
+    top: 7rem;
+  }
+}
+
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: utils.$text-xs;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.title {
+  max-width: 22ch;
+  font-size: clamp(2rem, 4.4vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.item {
+  border-top: 1px solid rgba(colors.$brand-indigo, 0.15);
+
+  &:last-child {
+    border-bottom: 1px solid rgba(colors.$brand-indigo, 0.15);
+  }
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: utils.$space-6;
+  padding: utils.$space-6 0;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  h3 {
+    font-size: utils.$text-xl;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+
+    @include utils.lg {
+      font-size: utils.$text-2xl;
+    }
+  }
+}
+
+/* A plus that turns into a minus as the answer opens. */
+.icon {
+  position: relative;
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    margin-top: -0.75px;
+    background-color: currentColor;
+    transition: transform utils.$transition-base;
+  }
+
+  &::after {
+    transform: rotate(90deg);
+  }
+
+  .item[open] &::after {
+    transform: rotate(0deg);
+  }
+}
+
+.answer {
+  max-width: 38rem;
+  padding-bottom: utils.$space-6;
+  color: rgba(colors.$brand-indigo, 0.7);
+  font-size: utils.$text-base;
+  line-height: 1.55;
+
+  .item[open] & {
+    animation: answer-in 0.4s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .item[open] & {
+      animation: none;
+    }
+  }
+}
+
+/* Fades in place rather than animating the height, so the page's scroll measurements
+   are right the moment it opens. */
+@keyframes answer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}

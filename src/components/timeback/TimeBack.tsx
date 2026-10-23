@@ -1,5 +1,6 @@
 'use client'
 
+import { PROCESS } from '@/content/site'
 import { gsap, prefersReducedMotion, registerGsap } from '@/lib/gsap'
 import { revealSection } from '@/lib/reveal'
 import NumberFlow from '@number-flow/react'
@@ -23,13 +24,6 @@ const WORKING_WEEKS = 48
 /** A weekend is two full days; an evening is the three hours after work. */
 const WEEKEND_HOURS = 16
 const EVENING_HOURS = 3
-
-const STEPS = [
-  { when: 'Day 1', what: 'A call. You walk us through a normal week' },
-  { when: 'Week 1', what: 'We map where your hours go and pick what to fix first' },
-  { when: 'Week 2', what: 'The first system is live and your team is using it' },
-  { when: 'Week 4', what: 'It runs without you. The hours are yours again' },
-]
 
 type TaskId = (typeof TASKS)[number]['id']
 
@@ -150,7 +144,7 @@ export default function TimeBack() {
           <div ref={lineRef} className={styles.line} />
         </div>
         <ol className={styles.steps}>
-          {STEPS.map(step => (
+          {PROCESS.map(step => (
             <li key={step.when} className={styles.step} data-reveal>
               <span className={styles.when}>{step.when}</span>
               <p className={styles.what}>{step.what}</p>

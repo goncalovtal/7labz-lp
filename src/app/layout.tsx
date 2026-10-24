@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Script>
         <Script
           defer
-          src="https://7labz-analytics.vercel.app/script.js"
+          src="https://analytics.7labz.ai/script.js"
           data-website-id="70c06cec-f8db-4958-9bfa-e03b10389df5"
         />
         <SmoothScroll>

@@ -59,6 +59,22 @@ export default function TimeBack() {
     const ratio = (area: HTMLElement, key: 'before' | 'after') => Number(area.dataset[key]) / SCALE
 
     const tl = gsap.timeline({
+      // The labels follow the bars themselves, not the scroll: the scrub trails the finger by
+      // a beat, so reading the scroll position flipped them while the bars were mid-drop.
+      // The switch flips as the drop begins; the figures follow halfway through it, when the
+      // bars are nearer the new hours.
+      onUpdate: () => {
+        const time = tl.time()
+        setStage(
+          time < 0.02
+            ? 'hidden'
+            : time < DROP_AT
+              ? 'before'
+              : time < DROP_AT + 0.2
+                ? 'switching'
+                : 'after',
+        )
+      },
       scrollTrigger: {
         // Timed off the bars, not the card: it starts as soon as they're fully on screen and
         // ends with them just above the middle, so every step plays where it can be seen and
@@ -68,20 +84,6 @@ export default function TimeBack() {
         end: 'bottom 58%',
         scrub: 0.6,
         invalidateOnRefresh: true,
-        onUpdate: self => {
-          const time = self.progress * tl.duration()
-          // The switch flips as the drop begins; the figures follow halfway through it, when
-          // the bars are nearer the new hours.
-          setStage(
-            time < 0.02
-              ? 'hidden'
-              : time < DROP_AT
-                ? 'before'
-                : time < DROP_AT + 0.2
-                  ? 'switching'
-                  : 'after',
-          )
-        },
       },
     })
     tl.to(areas, {

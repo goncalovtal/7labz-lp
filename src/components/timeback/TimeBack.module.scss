@@ -339,6 +339,77 @@
   line-height: 1.15;
 }
 
+/* Phones: five columns don't fit, so each task becomes a row, its label and the system that
+   takes it over above a bar that grows to the right. The same `--h` and `--g` drive it. */
+@media (max-width: #{utils.$bp-md - 0.02px}) {
+  .switch {
+    margin: utils.$space-5 0 utils.$space-6;
+  }
+
+  .switchOption {
+    padding: 0.75em 0.5em;
+    font-size: utils.$text-xs;
+  }
+
+  .bars {
+    grid-template-columns: 1fr;
+    gap: utils.$space-6;
+  }
+
+  .column {
+    gap: utils.$space-2;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .columnHead {
+    gap: utils.$space-1;
+  }
+
+  .columnLabel {
+    min-height: 0;
+    font-size: utils.$text-xs;
+  }
+
+  .fix {
+    font-size: utils.$text-xs;
+  }
+
+  .barArea {
+    --room: 3.75rem;
+
+    height: 2.25rem;
+    margin-left: 0;
+  }
+
+  .bar,
+  .ghost {
+    inset: 0 var(--room) 0 0;
+    transform: scaleX(var(--h));
+    transform-origin: left;
+  }
+
+  .ghost {
+    transform: scaleX(var(--g));
+  }
+
+  .figure,
+  .delta {
+    top: 50%;
+    bottom: auto;
+    translate: 0 -50%;
+  }
+
+  .figure {
+    left: calc(var(--h) * (100% - var(--room)) + #{utils.$space-2});
+    font-size: utils.$text-xl;
+  }
+
+  .delta {
+    left: calc(var(--g) * (100% - var(--room)) + #{utils.$space-2});
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .total,
   .switchKnob,

@@ -31,6 +31,11 @@ $nav-blend-color: color.invert(colors.$brand-indigo);
   flex-direction: column;
   align-items: flex-start;
   justify-self: start;
+
+  /* On phones the links live in the menu instead. */
+  @media (max-width: #{utils.$bp-md - 0.02px}) {
+    visibility: hidden;
+  }
 }
 
 .link {
@@ -59,13 +64,224 @@ $nav-blend-color: color.invert(colors.$brand-indigo);
   position: fixed;
   top: $pad;
   right: $pad;
-  z-index: utils.$z-overlay;
+  /* Above the page, so the open menu covers it. */
+  z-index: utils.$z-modal + 10;
+  /* On phones it holds the full-width menu box; only what's inside takes taps. */
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
 }
 
-/* Compact on phones so the button fits its grid column and the logo stays centred. */
-.ctaButton {
+/* Doubled up so it outranks the button's own `display`, whatever order the sheets load in. */
+.cta .ctaButton {
   @media (max-width: #{utils.$bp-md - 0.02px}) {
-    padding: 0.8em 0.9em;
-    font-size: utils.$text-xs;
+    display: none;
+  }
+}
+
+/* Phone menu, after Osmo's Scaling Hamburger Navigation. Everything keys off `data-open`:
+   the button's gray background grows from its own corner into the card, the links scale up
+   from that corner, and a scrim dims the page behind. */
+$menu-ease: cubic-bezier(0.5, 0.5, 0, 1);
+$menu-btn-w: 6.5rem;
+$menu-btn-h: 2.6rem;
+
+.menu {
+  pointer-events: none;
+
+  @include utils.md {
+    display: none;
+  }
+}
+
+.menuScrim {
+  position: fixed;
+  inset: 0;
+  background-color: colors.$brand-indigo;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.7s $menu-ease;
+
+  [data-open='true'] > & {
+    opacity: 0.35;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+/* As wide as the screen allows, anchored to the button's top-right corner. */
+.menuBox {
+  position: relative;
+  width: calc(100vw - 2 * #{$pad});
+  /* The box spans the screen even closed; only the button and the open card take taps, so
+     it never sits over the logo. */
+  pointer-events: none;
+}
+
+.menuBg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: $menu-btn-w;
+  height: $menu-btn-h;
+  background-color: #ececee;
+  transition: all 0.7s $menu-ease;
+
+  [data-open='true'] & {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.menuGroup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-8;
+  padding: utils.$space-5 utils.$space-6 utils.$space-6;
+  color: colors.$brand-indigo;
+  transform: scale(0.15) rotate(0.001deg);
+  transform-origin: 100% 0;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.5s $menu-ease,
+    visibility 0.5s $menu-ease,
+    transform 0.7s $menu-ease;
+
+  [data-open='true'] & {
+    transform: scale(1) rotate(0.001deg);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+.menuEyebrow,
+.menuIndex,
+.menuNote {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: utils.$text-xs;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(colors.$brand-indigo, 0.55);
+}
+
+/* Holds the line the button sits on, so the first link starts below it. */
+.menuEyebrow {
+  min-height: calc(#{$menu-btn-h} - #{utils.$space-5});
+}
+
+.menuLinks {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-1;
+}
+
+/* Each link settles in a beat after the one above it. */
+.menuLink {
+  display: flex;
+  align-items: baseline;
+  gap: utils.$space-3;
+  color: inherit;
+  font-size: clamp(2.25rem, 11vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(0.4em);
+  transition:
+    opacity 0.5s $menu-ease,
+    transform 0.6s $menu-ease;
+
+  [data-open='true'] & {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(0.12s + var(--i) * 0.05s);
+  }
+}
+
+.menuFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: utils.$space-4;
+}
+
+/* Sits in the box's corner over the growing background, so it reads as one object. */
+.menuButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: utils.$space-3;
+  width: $menu-btn-w;
+  height: $menu-btn-h;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: colors.$brand-indigo;
+  font: inherit;
+  font-size: utils.$text-sm;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus-visible {
+    outline: 2px solid colors.$brand-indigo;
+    outline-offset: -4px;
+  }
+}
+
+.menuIcon {
+  position: relative;
+  width: 16px;
+  height: 8px;
+
+  span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background-color: currentColor;
+    transition:
+      transform 0.6s $menu-ease,
+      top 0.6s $menu-ease;
+  }
+
+  span:first-child {
+    top: 0;
+  }
+
+  span:last-child {
+    top: calc(100% - 1.5px);
+  }
+
+  &[data-open='true'] span {
+    top: calc(50% - 0.75px);
+  }
+
+  &[data-open='true'] span:first-child {
+    transform: rotate(45deg);
+  }
+
+  &[data-open='true'] span:last-child {
+    transform: rotate(-45deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuScrim,
+  .menuBg,
+  .menuGroup,
+  .menuLink,
+  .menuIcon span {
+    transition: none;
   }
 }

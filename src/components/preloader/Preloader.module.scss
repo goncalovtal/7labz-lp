@@ -31,6 +31,8 @@
   display: flex;
   justify-content: center;
   padding: utils.$space-6;
+  /* Clear of the browser's own bars and the home indicator, whichever is taller. */
+  padding-bottom: calc(#{utils.$space-6} + max(100lvh - 100svh, env(safe-area-inset-bottom)));
   color: colors.$foreground;
   font-family: var(--font-primary), system-ui, sans-serif;
   font-size: utils.$text-xl;

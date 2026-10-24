@@ -5,6 +5,8 @@ import TransitionLink from './TransitionLink'
 type Props = {
   /** Where it goes; leave out for a form's submit button. */
   href?: string
+  /** Runs before the link's own navigation, such as closing a menu first. */
+  onClick?: () => void
   disabled?: boolean
   label: string
   tone?: 'indigo' | 'gray'
@@ -16,6 +18,7 @@ type Props = {
 /** Sharp CTA: shrinks on hover while its letters roll up one after another. */
 export default function ApplyButton({
   href,
+  onClick,
   disabled,
   label,
   tone = 'indigo',
@@ -33,7 +36,7 @@ export default function ApplyButton({
     )
   }
   return (
-    <TransitionLink href={href} className={classes}>
+    <TransitionLink href={href} onClick={onClick} className={classes}>
       <RollText>{label}</RollText>
     </TransitionLink>
   )

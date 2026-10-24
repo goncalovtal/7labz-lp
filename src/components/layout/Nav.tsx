@@ -8,6 +8,7 @@ import { LOGO_BOUNDS, LOGO_GLYPHS } from '@/lib/logo'
 import { onPreloader } from '@/lib/preloader'
 import { useEffect, useRef } from 'react'
 
+import MobileMenu from './MobileMenu'
 import styles from './Nav.module.scss'
 
 const LINKS = [
@@ -88,6 +89,7 @@ export default function Nav() {
         </TransitionLink>
       </header>
 
+      {/* Desktop shows the button; phones get the menu, which carries the button inside. */}
       <div className={styles.cta}>
         <ApplyButton
           href="#apply"
@@ -95,6 +97,7 @@ export default function Nav() {
           tone="gray"
           className={styles.ctaButton}
         />
+        <MobileMenu links={LINKS} />
       </div>
     </>
   )

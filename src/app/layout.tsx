@@ -53,6 +53,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="scroll-reset" strategy="beforeInteractive">
           {`if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);`}
         </Script>
+        <Script
+          defer
+          src="https://7labz-analytics.vercel.app/script.js"
+          data-website-id="70c06cec-f8db-4958-9bfa-e03b10389df5"
+        />
         <SmoothScroll>
           <PageTransition aside={<Nav />}>{children}</PageTransition>
           <Preloader />

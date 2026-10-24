@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>7labz Brand Files</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&display=swap">
+<style>
+  :root { color-scheme: dark; --indigo: #2b16a0; --lavender: #cac1ff; --green: #16c784; --white: #fff; --line: rgba(202,193,255,.25); --lav-25: rgba(202,193,255,.25); --mono: 'Geist Mono', ui-monospace, Menlo, monospace; }
+  body { margin: 0; background: var(--indigo); color: var(--white); font-family: var(--mono); }
+  main { max-width: 860px; margin: 0 auto; padding: 64px max(16px, env(safe-area-inset-right, 0px)) 96px max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 32px; }
+  h1 { font-weight: 400; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--lavender); margin: 0; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: grid; grid-template-columns: 1fr auto; gap: 16px; border-top: 1px solid var(--line); padding-block: 14px; font-size: 14px; }
+  li a { color: var(--white); text-decoration: none; overflow-wrap: anywhere; }
+  li a:hover, li a:focus-visible { color: var(--green); }
+  li span { color: var(--lavender); white-space: nowrap; }
+
+/* Site nav: sticky, indigo, page links right, section links scroll sideways on phones */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--indigo); }
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--indigo); border-bottom: 1px solid var(--lav-25); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.nav-in { max-width: 1040px; margin: 0 auto; height: 56px; display: flex; align-items: center; gap: 20px; }
+.nav-home { flex: none; display: block; line-height: 0; }
+.nav-home svg { width: 64px; height: auto; }
+.nav-sections { flex: 1; min-width: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; mask-image: linear-gradient(90deg, #000 85%, transparent); }
+.nav-sections::-webkit-scrollbar { display: none; }
+.nav a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--lavender); text-decoration: none; white-space: nowrap; padding: 8px 10px; }
+.nav a:hover, .nav a[aria-current] { color: var(--white); }
+.nav-sections a[aria-current] { box-shadow: inset 0 -2px 0 var(--green); }
+.nav-pages { flex: none; display: flex; gap: 4px; padding-left: 12px; border-left: 1px solid var(--lav-25); }
+.nav-pages a[aria-current] { color: var(--green); }
+section[id] { scroll-margin-top: calc(56px + env(safe-area-inset-top, 0px)); }
+@media (max-width: 620px) { .nav-in { height: auto; flex-wrap: wrap; gap: 0 10px; padding-top: 6px; } .nav-home svg { width: 52px; } .nav-pages { margin-left: auto; padding-left: 6px; border-left: 0; } .nav-sections { order: 3; flex-basis: 100%; border-top: 1px solid var(--lav-25); } .nav a { padding: 10px 6px; } section[id] { scroll-margin-top: calc(96px + env(safe-area-inset-top, 0px)); } }
+</style>
+<nav class="nav" aria-label="Brand kit"><div class="nav-in"><a class="nav-home" href="/" aria-label="7labz brand kit home"><svg viewBox="4.96 49.92 270.6 92.51" aria-hidden="true"><g fill="#cac1ff"><path d="M95.4613 53.9429C96.875 53.9429 97.8174 54.8869 97.8174 56.3029V134.183C97.8174 135.599 96.875 136.543 95.4613 136.543H88.393C86.9794 136.543 86.0369 135.599 86.0369 134.183V56.3029C86.0369 54.8869 86.9794 53.9429 88.393 53.9429H95.4613ZM148.25 136.543C146.954 136.543 146.012 135.835 145.54 134.655L143.655 129.935C143.066 128.637 142.124 128.519 141.182 129.581C137.294 134.301 131.05 138.431 122.686 138.431C111.141 138.431 101.835 132.649 101.835 120.377C101.835 106.925 110.434 101.261 127.752 100.553L140.121 100.081C141.417 100.081 142.124 99.2549 141.771 97.9569C140.121 91.2309 134.702 89.2249 127.634 89.2249C123.04 89.2249 118.092 90.2869 115.971 94.1809C115.264 95.4789 114.675 96.1869 113.262 96.1869H106.311C104.78 96.1869 103.837 95.2429 104.073 93.7089C105.84 84.0329 115.382 78.0149 128.341 78.0149C143.184 78.0149 154.022 86.9829 154.022 102.559V134.183C154.022 135.717 153.198 136.543 151.666 136.543H148.25ZM113.615 120.377C113.615 125.097 117.856 127.693 123.629 127.693C131.522 127.693 141.299 124.271 142.242 112.117C142.36 110.819 141.535 110.229 140.357 110.229L126.456 110.701C116.678 111.055 113.615 114.949 113.615 120.377ZM168.929 53.9429C170.342 53.9429 171.285 54.8869 171.285 56.3029V85.5669C171.285 86.5109 172.463 86.9829 173.17 86.2749C177.882 81.3189 184.243 78.0149 192.725 78.0149C207.098 78.0149 220.292 89.8149 220.292 108.223C220.292 126.631 207.098 138.431 192.725 138.431C183.772 138.431 177.175 134.655 172.463 129.227C171.756 128.283 170.578 128.519 170.107 129.699L167.986 134.655C167.515 135.835 166.572 136.543 165.394 136.543H161.86C160.682 136.543 159.504 135.363 159.504 134.183V56.3029C159.504 54.8869 160.682 53.9429 161.86 53.9429H168.929ZM190.134 127.811C201.207 127.339 208.511 119.551 208.511 108.695C208.511 97.6029 201.207 89.3429 190.134 89.3429C181.416 89.3429 171.521 95.1249 171.521 108.577C171.521 121.911 181.534 127.575 190.134 127.811ZM220.556 136.543C218.671 136.543 217.729 134.891 218.907 133.239L248.594 93.1189C249.3 92.1749 248.711 91.2309 247.415 91.2309H222.676C221.263 91.2309 220.32 90.2869 220.32 88.8709V82.2629C220.32 80.8469 221.263 79.9029 222.676 79.9029H267.56C269.445 79.9029 270.623 81.5549 269.445 83.2069L239.758 123.327C239.051 124.271 239.64 125.215 240.701 125.215H269.209C270.623 125.215 271.566 126.159 271.566 127.575V134.183C271.566 135.599 270.623 136.543 269.209 136.543H220.556Z"/><path d="M61.0702 101.281H51.9817C51.2532 101.281 50.678 101.492 50.2561 101.915C49.8343 102.338 49.6233 102.914 49.6233 103.643V134.181C49.6233 134.91 49.4124 135.487 48.9907 135.909C48.5688 136.332 47.9935 136.543 47.265 136.543H40.3047C39.5762 136.543 39.001 136.332 38.5791 135.909C38.1573 135.487 37.9465 134.91 37.9465 134.181V103.643C37.9465 102.914 38.1573 102.338 38.5791 101.915C39.001 101.492 39.5762 101.281 40.3047 101.281H44.2162C45.7118 101.281 46.9774 100.763 48.0127 99.7255C49.0864 98.6883 49.6233 97.4208 49.6233 95.9227V91.832C49.6233 91.1021 49.8343 90.5259 50.2561 90.1035C50.678 89.6809 51.2532 89.4696 51.9817 89.4696H61.1852C62.7959 89.4696 64.138 88.9703 65.2117 87.9715C66.2854 86.9729 66.8225 85.7053 66.8225 84.1689V68.0936C66.8225 67.3638 66.6114 66.7877 66.1897 66.3651C65.7678 65.9426 65.1925 65.7314 64.464 65.7314H11.3137C10.5851 65.7314 10.0099 65.52 9.58808 65.0976C9.16624 64.675 8.95534 64.0988 8.95534 63.369V56.2821C8.95534 55.5524 9.16624 54.9762 9.58808 54.5536C10.0099 54.1312 10.5851 53.9198 11.3137 53.9198H76.141C76.8695 53.9198 77.4448 54.1312 77.8667 54.5536C78.2884 54.9762 78.4993 55.5524 78.4993 56.2821V84.0536C78.4993 85.6668 77.7516 86.6464 76.2559 86.9921L68.8356 88.8935C67.3018 89.2392 66.3622 90.1802 66.017 91.7167L64.0037 99.034C63.6587 100.532 62.6808 101.281 61.0702 101.281Z"/></g></svg></a><div class="nav-sections"></div><div class="nav-pages"><a href="/">Guidelines</a><a href="/ads/">Ads</a><a href="/files/" aria-current="page">Files</a></div></div></nav>
+<main>
+  <h1>Brand files · click to download</h1>
+  <ul>
+    <li><a href="7labz-logotype.svg" download>7labz-logotype.svg</a><span>Wordmark, lavender</span></li>
+    <li><a href="7labz-icon.svg" download>7labz-icon.svg</a><span>7 icon on indigo</span></li>
+    <li><a href="horse-glyph-indigo.png" download>horse-glyph-indigo.png</a><span>3840×2160</span></li>
+    <li><a href="horse-glyph-transparent.png" download>horse-glyph-transparent.png</a><span>3840×2160, no background</span></li>
+    <li><a href="horse-glyph-loop.mp4" download>horse-glyph-loop.mp4</a><span>1920×1080</span></li>
+    <li><a href="horse-glyph-loop-square.mp4" download>horse-glyph-loop-square.mp4</a><span>1080×1080</span></li>
+    <li><a href="horse-glyph-loop-vertical.mp4" download>horse-glyph-loop-vertical.mp4</a><span>1080×1920</span></li>
+  </ul>
+</main>
+</html>
